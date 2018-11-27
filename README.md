@@ -3,11 +3,11 @@
 ## Intro
 For any ETF with large, liquid options market
 
-> Search ETF’s closing prices for bouncing around a two-year low, based on 10-day moving average.  
-  Find deep out of the money puts to sell.(Step 2: use put spread to insure against big losses).  
-  Estimate probabilities of negative gains and returns.
-  Establish a risk-reward policy for these types of trades. 
-  Determine how many puts to trade per $100K in account, in accordance with probabilities and risk-reward policy.  
+> - Search ETF’s closing prices for bouncing around a two-year low, based on 10-day moving average.   
+> - Find deep out of the money puts to sell.(Step 2: use put spread to insure against big losses).  
+> - Estimate probabilities of negative gains and returns.
+> - Establish a risk-reward policy for these types of trades. 
+> - Determine how many puts to trade per $100K in account, in accordance with probabilities and risk-reward policy.  
 
 Example securities: VXX, TLT
 
