@@ -3,10 +3,11 @@
 ## Data Source 
 
 ### No.1 Screening for ETFS
-Data: From NASDAQ ETF List & Screener: https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y
- 1 yr % Change <= -25%
- Asset Class = ‘Equity’
- Trade Options = True
+Data: From NASDAQ ETF List & Screener [Link](https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y)
+
+Asset Class = ‘Equity’
+ 
+Trade Options = True
 
 | Name                                                     | Symbol | Last Price | % Change | 1 yr % Change |
 |----------------------------------------------------------|--------|------------|----------|---------------|
