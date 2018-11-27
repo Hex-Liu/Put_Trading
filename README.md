@@ -1,14 +1,23 @@
 # Put_Trading
 
+## Intro
+For any ETF with large, liquid options market
+
+> Search ETF’s closing prices for bouncing around a two-year low, based on 10-day moving average.  
+  Find deep out of the money puts to sell.(Step 2: use put spread to insure against big losses).  
+  Estimate probabilities of negative gains and returns.
+  Establish a risk-reward policy for these types of trades. 
+  Determine how many puts to trade per $100K in account, in accordance with probabilities and risk-reward policy.  
+
+Example securities: VXX, TLT
+
 ## Data Source 
 
 ### No.1 Screening for ETFS
-Data: From NASDAQ [ETF List & Screener](https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y)
-
-Asset Class = ‘Equity’
- 
-Trade Options = True
-
+Data: From NASDAQ [ETF List & Screener](https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y)  
+> Asset Class = Equity  
+  Trade Options = True 
+  
 | Name                                                     | Symbol | Last Price | % Change | 1 yr % Change |
 |----------------------------------------------------------|--------|------------|----------|---------------|
 | InfraCap MLP ETF                                         | AMZA   | $ 6.03     | 1.17 ▲   | -25.13%       |
@@ -29,9 +38,7 @@ Trade Options = True
 ### NO.2 Historical Quotes for the Above 13 ETFS
 Data: [Yahoo Finance](https://finance.yahoo.com/lookup)
 
-Time Period: Nov 26, 2013 - Nov 26, 2018, 5 Years
-
-Frequency: Daily
-
-Date Pulled: 26th Nov.
+> Time Period: Nov 26, 2013 - Nov 26, 2018, 5 Years  
+  Frequency: Daily
+  Date Pulled: 26th Nov.
 
