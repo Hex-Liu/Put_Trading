@@ -3,7 +3,7 @@
 ## Data Source 
 
 ### No.1 Screening for ETFS
-Data: From NASDAQ ETF List & Screener [Link](https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y)
+Data: From NASDAQ [ETF List & Screener](https://www.nasdaq.com/investing/etfs/etf-finder-results.aspx?assetclass=equity&performance=ry1&region=north-america&options=y)
 
 Asset Class = ‘Equity’
  
@@ -27,7 +27,7 @@ Trade Options = True
 
 
 ### NO.2 Historical Quotes for the Above 13 ETFS
-Yahoo Finance
+Data: [Yahoo Finance](https://finance.yahoo.com/lookup)
 Time Period: Nov 26, 2013 - Nov 26, 2018, 5 Years
 Frequency: Daily
 Date Pulled: 26th Nov.
