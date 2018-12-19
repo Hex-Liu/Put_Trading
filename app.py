@@ -133,7 +133,7 @@ def render_content(tab):
                             'backgroundColor': 'white',
                             'fontWeight': 'bold'
                         },
-                        style_table={'fontSize': 14},
+                        style_table={'fontSize': 15},
                         style_cell_conditional=[
                                                    {
                                                        'if': {'row_index': 'odd'},
@@ -181,7 +181,7 @@ def render_content(tab):
                         'backgroundColor': 'white',
                         'fontWeight': 'bold'
                     },
-                    style_table={'fontSize': 14},
+                    style_table={'fontSize': 15},
                     style_cell_conditional=[
                                                {
                                                    'if': {'row_index': 'odd'},
