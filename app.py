@@ -127,6 +127,24 @@ def render_content(tab):
                         columns=[{'name': col_ds_tbl[i], 'id': i, 'deletable': False} for i in dt.columns if
                                  i != 'Fig'],
                         data=dt.to_dict("rows"),
+                        style_as_list_view=True,
+                        style_cell={'padding': '5px'},
+                        style_header={
+                            'backgroundColor': 'white',
+                            'fontWeight': 'bold'
+                        },
+                        style_table={'fontSize': 14},
+                        style_cell_conditional=[
+                                                   {
+                                                       'if': {'row_index': 'odd'},
+                                                       'backgroundColor': 'rgb(248, 248, 248)'
+                                                   }
+                                               ] + [
+                                                   {
+                                                       'if': {'column_id': c},
+                                                       'textAlign': 'left'
+                                                   } for c in ['Date', 'Region']
+                                               ],
                         editable=False,
                         filtering=False,
                         sorting=True,
@@ -155,8 +173,26 @@ def render_content(tab):
                 dash_table.DataTable(
                     id='Recmd_table',
                     columns=[{'name': col_ds_tbl[i], 'id': i, 'deletable': False} for i in dt.columns],
-                    data=dt_optn.sort_values('Mean_Ret', ascending=False).head(20) \
+                    data=dt_optn.sort_values('Mean_Ret', ascending=False).head(15) \
                         .round(dict_optn_tbl_round).to_dict("rows"),
+                    style_as_list_view=True,
+                    style_cell={'padding': '5px'},
+                    style_header={
+                        'backgroundColor': 'white',
+                        'fontWeight': 'bold'
+                    },
+                    style_table={'fontSize': 14},
+                    style_cell_conditional=[
+                                               {
+                                                   'if': {'row_index': 'odd'},
+                                                   'backgroundColor': 'rgb(248, 248, 248)'
+                                               }
+                                           ] + [
+                                               {
+                                                   'if': {'column_id': c},
+                                                   'textAlign': 'left'
+                                               } for c in ['Date', 'Region']
+                                           ],
                     editable=False,
                     filtering=False,
                     sorting=True,
