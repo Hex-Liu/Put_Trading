@@ -21,8 +21,8 @@ dt_optn = dt_optn.reset_index()
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-col_ds_tbl = dict(zip(['idx', 'Fig', 'Strike', 'Ask_p', 'Mean_Ret', 'Pr_Neg', 'VaR_5Pct'],
-                      ['Index', 'Underlying', 'Strike', 'Ask Price', 'Mean Return', 'Pr(Return<0)', '5% VaR']))
+col_ds_tbl = dict(zip(['idx', 'Fig', 'Strike','Bid_p', 'Ask_p', 'Mean_Ret', 'Pr_Neg', 'VaR_5Pct'],
+                      ['Index', 'Underlying', 'Strike','Bid Price', 'Ask Price', 'Mean Return', 'Pr(Return<0)', '5% VaR']))
 
 app.config['suppress_callback_exceptions'] = True
 dt_d2m_matr = dt_optn.loc[:, ['Fig', 'Maturity', 'D2M']]
@@ -80,7 +80,7 @@ def render_content(tab):
         return html.Div([
             html.Div([
                 html.Div([
-                    html.H4(children='👉 Step 1. Choose Underlying Assest:',
+                    html.H4(children='Step 1. Choose Underlying Asset:',
                             style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
                             className='h4')
                 ], className='col-8'),
@@ -96,7 +96,7 @@ def render_content(tab):
             html.Hr(),
             html.Div([
                 html.Div([
-                    html.H4(children='👉 Step 2. Choose Days to Maturity:',
+                    html.H4(children='Step 2. Choose Days to Maturity:',
                             style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
                             className='h4')
                 ], className='col-8'),
@@ -114,7 +114,7 @@ def render_content(tab):
             html.Hr(className='hr'),
             html.Div([
                 html.Div([
-                    html.H4(children='🔎 Available Options for Sale:',
+                    html.H4(children='Result. Available Options for Sale:',
                             style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
                             className='h4')
                 ], className='col')
@@ -165,6 +165,11 @@ def render_content(tab):
                 ], className='col'),
                 html.Div([], className='col-1')
             ], className='row'),
+            html.Br(),
+            html.Br(),
+            html.Br(),
+            html.Br(),
+            html.Br()
 
         ])
     elif tab == 'tab-2':
@@ -201,7 +206,12 @@ def render_content(tab):
                     row_deletable=False,
                     selected_rows=list(range(5)),
                 ),
-                html.Div(id='dist_plot_rec')
+                html.Div(id='dist_plot_rec'),
+                html.Br(),
+                html.Br(),
+                html.Br(),
+                html.Br(),
+                html.Br()
             ])
         ])
 
