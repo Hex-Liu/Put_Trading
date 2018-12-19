@@ -21,7 +21,8 @@ dt_optn = dt_optn.reset_index()
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-col_ds_tbl = ['idx', 'Strike', 'Ask_p', 'Mean_Ret', 'Pr_Neg', 'VaR_5Pct']
+col_ds_tbl = dict(zip(['idx', 'Fig', 'Strike', 'Ask_p', 'Mean_Ret', 'Pr_Neg', 'VaR_5Pct'],
+                      ['Index', 'Underlying', 'Strike', 'Ask Price', 'Mean Return', 'Pr(Return<0)', '5% VaR']))
 
 app.config['suppress_callback_exceptions'] = True
 dt_d2m_matr = dt_optn.loc[:, ['Fig', 'Maturity', 'D2M']]
@@ -33,12 +34,33 @@ dict_optn_tbl_round = {'Strike': 1, 'Ask_p': 2, 'Mean_Ret': 3, 'Pr_Neg': 3, 'VaR
 
 def serve_layout():
     return html.Div([
+        html.Div([
+            html.Div([
+                html.H1(children='Put Strategy Trading System',
+                        style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
+                        className='h1')
+            ], className='col-9'),
+            # html.Div([]),
+            html.Div([
+                html.Img(
+                    src=
+                    'http://engineering.columbia.edu/files/engineering/logo.jpg',
+                    className='float-right img-fluid',
+                    style={
+                        'float': 'right',
+                        'position': 'relative',
+                        'padding-top': 12,
+                        'padding-right': 0})
+            ], className='col-3')
+        ], className='row'),
+        html.Hr(className='hr'),
         dcc.Tabs(id="tabs", value='tab-1', children=[
             dcc.Tab(label='Customization', value='tab-1'),
             dcc.Tab(label='Recommendation', value='tab-2'),
         ]),
+        html.Hr(className='hr'),
         html.Div(id='tabs-content')
-    ])
+    ], className='container')
 
 
 app.layout = serve_layout
@@ -52,47 +74,87 @@ def render_content(tab):
     init_fig = ls_fig[0]
     init_optn = dt_optn.loc[dt_optn.Fig == init_fig, :]
     init_ls_d2m = init_optn['D2M'].dt.days.unique()
-    dt = init_optn.loc[init_optn.D2M == pd.Timedelta(init_ls_d2m[0], 'D'), col_ds_tbl]
+    dt = init_optn.loc[init_optn.D2M == pd.Timedelta(init_ls_d2m[0], 'D'), col_ds_tbl.keys()]
     dt = dt.round(dict_optn_tbl_round)
     if tab == 'tab-1':
         return html.Div([
-            dcc.Dropdown(
-                id='fig_dropdown',
-                options=[{'label': k, 'value': k} for k in ls_fig],
-                value=init_fig
-            ),
-
+            html.Div([
+                html.Div([
+                    html.H4(children='👉 Step 1. Choose Underlying Assest:',
+                            style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
+                            className='h4')
+                ], className='col-8'),
+                html.Div([
+                    dcc.Dropdown(
+                        id='fig_dropdown',
+                        options=[{'label': k, 'value': k} for k in ls_fig],
+                        value=init_fig
+                    )
+                ], className='col-3'),
+                html.Div([], className='col-1')
+            ], className='row'),
             html.Hr(),
+            html.Div([
+                html.Div([
+                    html.H4(children='👉 Step 2. Choose Days to Maturity:',
+                            style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
+                            className='h4')
+                ], className='col-8'),
+                html.Div([
+                    dcc.RadioItems(
+                        id='D2M_RadioItems',
+                        options=[
+                            {'label': dt_d2m_matr.loc[idx, 'str_4ratio'], 'value': dt_d2m_matr.loc[idx, 'D2M'].days}
+                            for idx in dt_d2m_matr.loc[dt_d2m_matr.Fig == init_fig].index]
+                    )
+                ], className='col-3'),
+                html.Div([], className='col-1')
+            ], className='row'),
 
-            dcc.RadioItems(
-                id='D2M_RadioItems',
-                options=[{'label': dt_d2m_matr.loc[idx, 'str_4ratio'], 'value': dt_d2m_matr.loc[idx, 'D2M'].days}
-                         for idx in dt_d2m_matr.loc[dt_d2m_matr.Fig == init_fig].index]
-            ),
+            html.Hr(className='hr'),
+            html.Div([
+                html.Div([
+                    html.H4(children='🔎 Available Options for Sale:',
+                            style={'color': '#87cefa', 'font': 'Bello', 'Bold': 'False'},
+                            className='h4')
+                ], className='col')
+            ], className='row'),
+            html.Div([
+                html.Div([], className='col-1'),
+                html.Div([
+                    dash_table.DataTable(
+                        id='Option_table',
+                        columns=[{'name': col_ds_tbl[i], 'id': i, 'deletable': False} for i in dt.columns if
+                                 i != 'Fig'],
+                        data=dt.to_dict("rows"),
+                        editable=False,
+                        filtering=False,
+                        sorting=True,
+                        sorting_type="multi",
+                        row_selectable="multi",
+                        row_deletable=False,
+                        selected_rows=[],
+                    )
+                ], className='col'),
+                html.Div([], className='col-1')
+            ], className='row'),
+            html.Hr(className='hr'),
+            html.Div([
+                html.Div([], className='col-1'),
+                html.Div([
+                    html.Div(id='test'),
+                    html.Div(id='dist_plot')
+                ], className='col'),
+                html.Div([], className='col-1')
+            ], className='row'),
 
-            html.Hr(),
-
-            dash_table.DataTable(
-                id='Option_table',
-                columns=[{'name': i, 'id': i, 'deletable': False} for i in dt.columns],
-                data=dt.to_dict("rows"),
-                editable=False,
-                filtering=False,
-                sorting=True,
-                sorting_type="multi",
-                row_selectable="multi",
-                row_deletable=False,
-                selected_rows=[],
-            ),
-            html.Div(id='test'),
-            html.Div(id='dist_plot')
         ])
     elif tab == 'tab-2':
         return html.Div([
             html.Div([
                 dash_table.DataTable(
                     id='Recmd_table',
-                    columns=[{'name': i, 'id': i, 'deletable': False} for i in dt.columns],
+                    columns=[{'name': col_ds_tbl[i], 'id': i, 'deletable': False} for i in dt.columns],
                     data=dt_optn.sort_values('Mean_Ret', ascending=False).head(20) \
                         .round(dict_optn_tbl_round).to_dict("rows"),
                     editable=False,
@@ -151,12 +213,16 @@ def set_display_children(slct_row, data, columns):
     idx = dt_tmp.iloc[list(slct_row)]['idx']
     # sim_series=dt_ni[idx]
 
-    fig = ff.create_distplot([dt_ni[i] for i in idx], [str(i) for i in idx], bin_size=.5, show_rug=False,
+    fig = ff.create_distplot([dt_ni[i] for i in idx], [str(i) for i in idx], bin_size=.2, show_rug=False,
                              show_curve=False)
+    fig.layout.update(title='Histogram of Mean Return')
+    fig.layout.xaxis.update({'title': 'Mean Return (In Dollar$) '})
+
     return dcc.Graph(
         figure=fig,
         id='my-graph'
     )
+
 
 @app.callback(
     Output('dist_plot_rec', 'children'),
@@ -166,14 +232,16 @@ def set_display_children(slct_row, data, columns):
 def set_display_children(slct_row, data, columns):
     dt_tmp = pd.DataFrame(data, columns=[c['id'] for c in columns])
     idx = dt_tmp.iloc[list(slct_row)]['idx']
-    # sim_series=dt_ni[idx]
 
     fig = ff.create_distplot([dt_ni[i] for i in idx], [str(i) for i in idx], bin_size=.5, show_rug=False,
                              show_curve=False)
+    fig.layout.update(title='Histogram of Mean Return')
+    fig.layout.xaxis.update({'title': 'Mean Return (In Dollar$) '})
     return dcc.Graph(
         figure=fig,
         id='my-graph_rec'
     )
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
